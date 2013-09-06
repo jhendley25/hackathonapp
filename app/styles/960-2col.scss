@@ -178,4 +178,23 @@ body {
 	display: block;
 }
 
+.route-info-form {
+	width: 400px;
+	height: 100%;
+	padding: 5px;
+	display: inline-block;
+	position: relative;
+	top: 15px;
+	left: 20px;
+
+	input {
+		margin: 5px;
+	}
+	.col-lg-4 {
+		position: relative;
+		left: 75px;
+		top: -40px;
+	}
+}
+
 

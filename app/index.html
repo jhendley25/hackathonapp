@@ -20,13 +20,15 @@
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
+<div class="background-image">
+  <img src="../assets/climbing-bkgd2.jpg">
+</div>
 
 
 <div class="header-fixed">
     <div class="header-content-wrapper">
 
-            <a href="#"><h1>Betafy!</h1></a></a>
+            <a href="#"><h1>Beta-fy!</h1></a></a>
             <button class="btn btn-primary btn-lg" id="home-btn"><h2>Home</h2></a></button>
             <button class="btn btn-primary btn-lg" id="about-btn"><h2>About</h2></a></button>
             <button class="btn btn-primary btn-lg" id="my-routes"><h2>My Routes</h2></button>
@@ -51,6 +53,7 @@
 <!-- add gradient overlay of .rightcolumn to hide/show along with the above button -->
 
 <!-- actual left column content displayed after starting -->
+<div class="home-left-column">
 <h3>Getting Started:</h3>
 <ol>
 <li>Enter Route Info</li>
@@ -67,12 +70,12 @@
 
 </ul>
 </div>
-
+</div>
         </div>
         
         <div class="rightcolumn">
             <div class="getting-started-overlay">
-<!-- gradient overlay for splash page -->
+<span class="welcome-logo">Welcome to Beta-fy!</span>
             </div>
 <!-- route preview overlay -->
             <div class="preview-route-info">
@@ -100,7 +103,11 @@
 <!-- my routes page overlay -->
 
 <div class="my-routes-overlay">
+  <h1>Route Collection</h1>
+  <hr>
+  <div class="my-routes-list">
 
+  </div>
 
 
 
@@ -114,7 +121,7 @@
                 
                 <h3>Rating:</h3>
             <div class="col-lg-4">
-                <select id="routerating" class="form-control">
+                <select id="routerating" class="select-box">
                   <option>5.5</option>
                   <option>5.6</option>
                   <option>5.7</option>

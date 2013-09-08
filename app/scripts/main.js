@@ -25,9 +25,9 @@ function clickEvents() {
 
 // routeCollection initialized with three predefined objects for display purposes
 routeCollection = [
-	{routename:"Ball Scratcher", routerating: "5.12",routetype: "sport", routedegree: "Overhanging", rocktype: "sandstone", routedesc: "Move right from Heart Shaped Box about 50 feet to a rounded arete where the approach trail meets the wall. Balance up the creepy arete to the anchors"},
-	{routename: "Chainsaw Massacre", routerating: "5.12",routetype: "sport", routedegree: "Overhanging", rocktype: "sandstone", routedesc: "Classic Enduro climbing. This route provides a good introduction to the steeper routes at The Lode.  Begin atop the low boulder. Climb up, then make a tough move left to a good shake.  Paddle up on good edges in a groove between two blank walls, keeping enough energy in reserve to clip the anchors."},
-	{routename: "Transworld Depravity", routerating: "5.14",routetype: "sport", routedegree: "Overhanging", rocktype: "sandstone", routedesc: "Walk right from Cosmic Sausage to the beginning of the obvious overhang of the Madness Cave.  Begin by climbing through roughly 60 feet of 5.12c moves to a rest.  When recovered, power through a hard move to reach sustained tough climbing, which leads to another hard move. Finish by romping up the relaxing 5.13a moves to the anchors."}
+	{routename:"Ball Scratcher", routerating: "5.12",routetype: "Sport", routedegree: "Overhanging", rocktype: "Sandstone", routedesc: "Move right from Heart Shaped Box about 50 feet to a rounded arete where the approach trail meets the wall. Balance up the creepy arete to the anchors"},
+	{routename: "Chainsaw Massacre", routerating: "5.12",routetype: "Sport", routedegree: "Overhanging", rocktype: "Sandstone", routedesc: "Classic Enduro climbing. This route provides a good introduction to the steeper routes at The Lode.  Begin atop the low boulder. Climb up, then make a tough move left to a good shake.  Paddle up on good edges in a groove between two blank walls, keeping enough energy in reserve to clip the anchors."},
+	{routename: "Transworld Depravity", routerating: "5.14",routetype: "Sport", routedegree: "Overhanging", rocktype: "Sandstone", routedesc: "Walk right from Cosmic Sausage to the beginning of the obvious overhang of the Madness Cave.  Begin by climbing through roughly 60 feet of 5.12c moves to a rest.  When recovered, power through a hard move to reach sustained tough climbing, which leads to another hard move. Finish by romping up the relaxing 5.13a moves to the anchors."}
 ];
 
 
@@ -101,12 +101,26 @@ function entryCancellation(){
 
 function updateRouteList(list){
 	var ul = $(".route-list ul")
+	var myRoutesDisplay = $(".my-routes-list")
+	myRoutesDisplay.html('')
 	ul.html('')
 	
 
 	list.forEach(function(o) {
-		var text = "<li>" + o.routename + ", " + o.routerating + "</li>"
-		ul.append(text)
+		var text = "<li>" + o.routename + ", " + o.routerating + "</li>";
+		ul.append(text);
+		var routeId = o.routename.replace(" ", "-");
+		var routeToggles = 
+		'<button type="button" class="btn btn-large btn-block btn-primary" data-toggle="collapse" ' + 
+		'data-target="#' + routeId + '-description">' + o.routename + ", " + o.routerating +'</button>' 
+		+ '<div id="' + routeId + '-description" class="collapse">' + 
+			'<h5>Route Type: ' + o.routetype + '</h5><br>' + 
+			'<h5>Route Degree: ' + o.routedegree + '</h5><br>' + 
+			'<h5>Rock Type: ' + o.rocktype + '</h5><br>' + 
+			'<blockquote><strong>Route Description:</strong><br>' + '<p>' + o.routedesc + '</p></blockquote><br>' + 
+		'</div>';
+		
+		myRoutesDisplay.append(routeToggles);
 	})
 }
 
@@ -116,25 +130,31 @@ function animateGettingStarted() {
 		$(".getting-started").hide();
 		$(".getting-started-overlay").animate({
 			width: "0"},
-			1000, function(){});
-		$(".img-holder").show()
+			500, function(){});
+		$(".welcome-logo").hide();
+		$(".img-holder").show();
+		$(".home-left-column").show();
 }
 function animateShowPreview() {
 		$(".preview-route-info").animate({
 			width: "100%"},
-			1000, function(){
+			500, function(){
 
 			});
 		$(".preview-route-info").show();
+		$(".home-left-column").hide();
+
 }
 
 function animateToHomeScreen () {
 	$(".preview-route-info").animate({
 			width: "0"},
-			1000, function(){
+			500, function(){
 
 			});
 		$(".preview-route-info").hide("slow");
+		$(".home-left-column").show();
+
 }
 
 // animations for My Routes page

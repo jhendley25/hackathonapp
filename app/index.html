@@ -52,16 +52,36 @@
 <li>Upload a Picture</li>
 <li>Click Submit</li>
 </ol>
-<button type="button"  class="btn btn-primary btn-lg">Submit</button>
+<button type="button"  class="btn btn-primary btn-lg">Preview</button>
         </div>
         
         <div class="rightcolumn">
             <div class="getting-started-overlay">
 
             </div>
+            <div class="preview-route-info">
+                <h1>Route Preview</h1>
+
+                <dl>
+                  <dt>Route Name</dt>
+                  <dd><span class="routename"></span></dd>
+                  <dt>Route Rating</dt>
+                  <dd><span class="routerating"></span></dd>
+                  <dt>Route Type</dt>
+                  <dd><span class="routetype"></span></dd>
+                  <dt>Route Degree</dt>
+                  <dd><span class="routedegree"></span></dd>
+                  <dt>Rock Type</dt>
+                  <dd><span class="rocktype"></span></dd>
+                  <dt>Rock Description</dt>
+                  <dd><span class="routedesc"></span></dd>
+                </dl>
+                <button type="button"  class="btn btn-primary btn-lg">Confirm</button>
+                <button type="button"  class="btn btn-primary btn-lg">Cancel</button>
+            </div>
             <div class="route-info-form">
                 <h2>Route information:</h2>
-                <input class="form-control" type="text" placeholder="Route Name">
+                <input id="routename" class="form-control" type="text" placeholder="Route Name">
                 
                 <h3>Rating:</h3>
             <div class="col-lg-4">
@@ -81,11 +101,11 @@
                 </select>
             </div>
 
-                <input class="form-control" type="text" placeholder="Sport, Trad, or Bouldering?">
-                <input class="form-control" type="text" placeholder="Overhanging, Dead Vertical, or Slab">
-                <input class="form-control" type="text" placeholder="Rock Type">
+                <input id="routetype" class="form-control" type="text" placeholder="Sport, Trad, or Bouldering?">
+                <input id="routedegree" class="form-control" type="text" placeholder="Overhanging, Dead Vertical, or Slab">
+                <input id="rocktype" class="form-control" type="text" placeholder="Rock Type">
                 <h3>Description</h3>
-                <textarea class="form-control" rows="3" placeholder="Betafy your fellow climber!"></textarea>
+                <textarea id="routedesc" class="form-control" rows="3" placeholder="Betafy your fellow climber!"></textarea>
                
             </div>
 <div class="img-holder"></div>

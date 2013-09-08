@@ -118,8 +118,7 @@ body {
 	width: 100%;
 	height: 600px; /*height for layout prototyping*/
 	position: relative;
-		/*height for prototyping*/
-
+		
 }
 .getting-started {
 	width: 100%;
@@ -275,12 +274,18 @@ body {
 
 #home-btn, #about-btn, #my-routes {
 	padding: 5px;
-	
+	background-color: $header-footer-color;
+	border: none;
 	h2 {
 		margin: 0px;
 	}
+	&:hover {
+		background-color: darken($header-footer-color, 10%);
+	}
 }
+/*#home-btn:hover, #about-btn:hover, #my-routes:hover {
 
+}*/
 .home-left-column {
 	display: none;
 }

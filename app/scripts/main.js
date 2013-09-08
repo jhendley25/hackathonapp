@@ -1,7 +1,7 @@
 $(document).ready(function () {
-	$('#add-route').click(function() {
+	animateGettingStarted();
+	animateShowPreview();
 
-	})
 });
 
 function getFormValues() {
@@ -55,3 +55,35 @@ var ClimbingRoute = function(options) {
 
 	}
 }
+
+var animateGettingStarted = function(){
+	$("#getting-started-btn").click(function(){
+		$(".getting-started").hide();
+		$(".getting-started-overlay").animate({
+			width: "0"},
+			1000, function(){
+
+			});
+
+		});
+		$(".img-holder").show()
+}
+var animateShowPreview = function() {
+	$("#show-preview-btn").click(function(){
+		$(".preview-route-info").animate({
+			width: "100%"},
+			1000, function(){
+
+			});
+		$(".preview-route-info").show();
+});
+}
+
+
+
+
+
+
+
+
+

@@ -99,7 +99,7 @@ body {
 	height: 100%;
 	background-color: $dark-blue;
 	/*css to change with jquery click hide()*/
-	display: none;
+	display: block;
 	
 }
 .getting-started-overlay {
@@ -108,9 +108,13 @@ body {
 	background-color: $blue-base-color;
 	position: absolute;
 	left: 0;
-	display: none;
+	display: block;
 	z-index: 10000;
 }
+#getting-started-btn {
+	margin:0;
+}
+
 .inner-box {
 		width: 170px;
 		height: 150px;
@@ -175,7 +179,7 @@ body {
 	background-color: #ccc;
 	box-shadow: -1px 1px 2px #000;
 	z-index: 100;
-	display: block;
+	display: none;
 }
 
 .route-info-form {
@@ -197,12 +201,12 @@ body {
 	}
 }
 .preview-route-info {
-	width:100%;
+	width:0;
 	height: 100%;
 	background-color: #ccc;
 	position: absolute;
 	left: 0;
-	display: block;
+	display: none;
 	z-index: 10000;
 }
 

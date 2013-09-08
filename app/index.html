@@ -20,18 +20,23 @@
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+
+
+
 <div class="header-fixed">
     <div class="header-content-wrapper">
-        <!-- <div class="header-logo"> -->
-            <a href="#" ><h1>Betafy!</h1></a>
-            <a href="#" ><h2>Home</h2></a>
-            <a href="#" ><h2>About</h2></a>
-            <a href="#" ><h2>Contact</h2></a>
+
+            <a href="#"><h1>Betafy!</h1></a></a>
+            <button class="btn btn-primary btn-lg" id="home-btn"><h2>Home</h2></a></button>
+            <button class="btn btn-primary btn-lg" id="about-btn"><h2>About</h2></a></button>
+            <button class="btn btn-primary btn-lg" id="my-routes"><h2>My Routes</h2></button>
 
 
-        <!-- </div> -->
+
     </div>
 </div>
+
+
 <div class="wrapper960">
     <div class="content960">
         <div class="leftcolumn">
@@ -53,40 +58,63 @@
 <li>Click Preview</li>
 </ol>
 <button id="show-preview-btn" type="button"  class="btn btn-primary btn-lg">Preview</button>
+
+<!-- list current routes in routeCollection -->
+
+<h3>Your Routes:</h3>
+<div class="route-list">
+<ul>
+
+</ul>
+</div>
+
         </div>
         
         <div class="rightcolumn">
             <div class="getting-started-overlay">
 <!-- gradient overlay for splash page -->
             </div>
-
+<!-- route preview overlay -->
             <div class="preview-route-info">
                 <h1>Route Preview</h1>
 
                 <dl>
                   <dt>Route Name</dt>
-                  <dd><span class="routename"></span></dd>
+                  <dd><span id="routename-preview"></span></dd>
                   <dt>Route Rating</dt>
-                  <dd><span class="routerating"></span></dd>
+                  <dd><span id="routerating-preview"></span></dd>
                   <dt>Route Type</dt>
-                  <dd><span class="routetype"></span></dd>
+                  <dd><span id="routetype-preview"></span></dd>
                   <dt>Route Degree</dt>
-                  <dd><span class="routedegree"></span></dd>
+                  <dd><span id="routedegree-preview"></span></dd>
                   <dt>Rock Type</dt>
-                  <dd><span class="rocktype"></span></dd>
+                  <dd><span id="rocktype-preview"></span></dd>
                   <dt>Rock Description</dt>
-                  <dd><span class="routedesc"></span></dd>
+                  <dd><span id="routedesc-preview"></span></dd>
                 </dl>
-                <button type="button"  class="btn btn-primary btn-lg">Confirm</button>
-                <button type="button"  class="btn btn-primary btn-lg">Cancel</button>
+                <button type="button" id="confirm-route" class="btn btn-primary btn-lg">Confirm</button>
+                <button type="button" id="cancel-route" class="btn btn-primary btn-lg">Cancel</button>
             </div>
+<!-- end route preview overlay -->
+
+<!-- my routes page overlay -->
+
+<div class="my-routes-overlay">
+
+
+
+
+</div>
+
+<!-- end my routes page overlay -->
+            <!-- route info form -->
             <div class="route-info-form">
                 <h2>Route information:</h2>
                 <input id="routename" class="form-control" type="text" placeholder="Route Name">
                 
                 <h3>Rating:</h3>
             <div class="col-lg-4">
-                <select class="form-control">
+                <select id="routerating" class="form-control">
                   <option>5.5</option>
                   <option>5.6</option>
                   <option>5.7</option>
@@ -113,9 +141,7 @@
         </div>
     </div>
 </div>
-<div class="footer-fixed">
 
-</div>
 
 
 

@@ -63,6 +63,10 @@ body {
 	a:hover {
 		color: #ccc;
 	}
+	button {
+		margin-top: -20px;
+		margin-right: 20px;
+	}
 }
 
 .footer-fixed {
@@ -209,4 +213,20 @@ body {
 	display: none;
 	z-index: 10000;
 }
+.my-routes-overlay {
+	height:600px;
+	width: 100%;
+	background-color: #ccc;
+	position: absolute;
+	left: 0;
+	display: none;
+	z-index: 100000;
+}
 
+#home-btn, #about-btn, #my-routes {
+	padding: 5px;
+	
+	h2 {
+		margin: 0px;
+	}
+}

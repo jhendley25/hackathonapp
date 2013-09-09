@@ -20,6 +20,7 @@ function clickEvents() {
 	$("#show-preview-btn").click(function(){generateRoutePreview()});
 	$("#confirm-route").click(function(){entryConfirmation()});
 	$("#cancel-route").click(function(){entryCancellation()});
+	$("#submit-photo").click(function(){profilePicture()});
 }
 
 
@@ -168,7 +169,13 @@ function hideMyRoutes () {
 	$(".my-routes-display").hide();
 }
 
-
+// function profilePicture() {
+// 	var photoToLoad = $("#profilePhotoFileUpload");
+// 	var file = photoToLoad.file;
+//   	var name = "photo.jpg";
+// 	var parseFile = new Parse.File(name, file);
+// 	$(".img-holder").css("background-image", file)
+// }
 
 
 

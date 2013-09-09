@@ -8,7 +8,7 @@ $lighter-blue-grey: rgb(24, 139, 206);
 $logo-primary: rgb(255, 176, 59);
 $logo-secondary: rgb(182, 73, 38);
 
-$blue-gradient: linear-gradient(top, $blue-base-color, lighten(white, 20%));
+$blue-gradient: linear-gradient(top left, $blue-base-color, darken($blue-base-color, 20%));
 
 $background-photo: url(../assets/climbing-bkgd2.jpg);
 
@@ -301,4 +301,14 @@ body {
 	background-color: #fff;
 	border: 1px solid #ccc;
 	border-radius: 4px;
+}
+.img-upload-btns {
+	width: 100%;
+	height: auto;
+	position: absolute;
+	bottom: 0;
+	button {
+		margin: 3px;
+	}
+
 }

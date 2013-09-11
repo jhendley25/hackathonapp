@@ -32,44 +32,55 @@ routeCollection = [
 	{routename: "Transworld Depravity", routerating: "5.14",routetype: "Sport", routedegree: "Overhanging", rocktype: "Sandstone", routedesc: "Walk right from Cosmic Sausage to the beginning of the obvious overhang of the Madness Cave.  Begin by climbing through roughly 60 feet of 5.12c moves to a rest.  When recovered, power through a hard move to reach sustained tough climbing, which leads to another hard move. Finish by romping up the relaxing 5.13a moves to the anchors."}
 ];
 
+//Parse constructor
+var Route = Parse.Object.extend('Route', 
 
-//get input values and return an object for use in Route constructor
-function getFormValues() {
-	var routeNameVal = $("#routename").val()
-	var routeRatingVal = $("#routerating").val()
-	var routeTypeVal = $("#routetype").val()
-	var routeDegreeVal = $("#routedegree").val()
-	var rockTypeVal = $("#rocktype").val()
-	var routeDescVal = $("#routedesc").val()
-
-	var formData = {
-		routename: routeNameVal,
-		routerating: routeRatingVal,
-		routetype: routeTypeVal,
-		routedegree: routeDegreeVal,
-		rocktype: rockTypeVal,
-		routedesc: routeDescVal
-	}
-	return formData;
-}
-
-//route constructor
-var Route = function (options) {
-	this.options = options || {};
-	this.routename = options.routename;
-	this.routerating = options.routerating;
-	this.routetype = options.routetype;
-	this.routedegree = options.routedegree;
-	this.rocktype = options.rocktype;
-	this.routedesc = options.routedesc;
+{
 	
-}
+	//instance methods
+	setImage: function(){
+		
+		$('#profilePhotoFileUpload').bind("change", function(e) {
+		      var files = e.target.files || e.dataTransfer.files;
+		      // Our file var now holds the selected file
+		      file = files[0];
+		      var routePictureFile = file;
+		      route.set('routeImage', routePictureFile);
+
+    	});
+	}
+},
+	{ //class methods
+		createFromForm: function(){
+
+			var routeNameVal = $("#routename").val()
+			var routeRatingVal = $("#routerating").val()
+			var routeTypeVal = $("#routetype").val()
+			var routeDegreeVal = $("#routedegree").val()
+			var rockTypeVal = $("#rocktype").val()
+			var routeDescVal = $("#routedesc").val()
+			
+			
+			route = new Route()
+
+			route.set("name", routeNameVal)
+			route.set("rating", routeRatingVal)
+			route.set("type", routeTypeVal)
+			route.set("degree", routeDegreeVal)
+			route.set("rocktype", rockTypeVal)
+			route.set("desc", routeDescVal)
+
+			return route
+			}
+		}
+);
 
 
-var RoutesCollection = Parse.Object.extend("RoutesCollection")
-var routesCollection = new RoutesCollection();
 
 
+
+
+//incorporate this into the constructor!!!!!!!!!!!!!
 function generateRoutePreview(){
 		animateShowPreview();
 		// one thing that isn't quite right about my setup.  global variable
@@ -84,49 +95,65 @@ function generateRoutePreview(){
 }
 
 
-function entryConfirmation() {
-		$('input').val("");
-		$('textarea').val("");
-		updateRouteList(routeCollection);
-		animateToHomeScreen();
-		uploadImage();
-		saveRouteInfo();
-}
 
 
-function entryCancellation(){
-		routeCollection.pop();
-		animateToHomeScreen();
-		updateRouteList(routeCollection);
-}
 
-function updateRouteList(list){
-	var ul = $(".route-list ul")
-	var myRoutesDisplay = $(".my-routes-list")
-	myRoutesDisplay.html('')
-	ul.html('')
-	
+//incorporate this into route constructor
+function uploadImage () {
+    var file;
 
-	list.forEach(function(o) {
-		var text = "<li>" + o.routename + ", " + o.routerating + "</li>";
-		ul.append(text);
-		var routeId = o.routename.replace(" ", "-");
-		var routeToggles = 
-		'<button type="button" class="btn btn-large btn-block btn-primary" data-toggle="collapse" ' + 
-		'data-target="#' + routeId + '-description">' + o.routename + ", " + o.routerating +'</button>' 
-		+ '<div id="' + routeId + '-description" class="collapse">' + 
-			'<h5>Route Type: ' + o.routetype + '</h5><br>' + 
-			'<h5>Route Degree: ' + o.routedegree + '</h5><br>' + 
-			'<h5>Rock Type: ' + o.rocktype + '</h5><br>' + 
-			'<blockquote><strong>Route Description:</strong><br>' + '<p>' + o.routedesc + '</p></blockquote><br>' + 
-		'</div>';
-		
-		myRoutesDisplay.append(routeToggles);
-	})
-}
+    // Set an event listener on the Choose File field.
+    $('#profilePhotoFileUpload').bind("change", function(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      // Our file var now holds the selected file
+      file = files[0];
+    });
 
-// animations for splash, preview, and home pages
+    // This function is called when the user clicks on Upload to Parse. It will create the REST API request to upload this image to Parse.
+    $('#submit-photo').click(function() {
+      var serverUrl = 'https://api.parse.com/1/files/' + file.name;
 
+      $.ajax({
+        type: "POST",
+        beforeSend: function(request) {
+          request.setRequestHeader("X-Parse-Application-Id", 't6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt');
+          request.setRequestHeader("X-Parse-REST-API-Key", 'KJsEJix8NpFAomBtNBnPztvYm1cdKVojSOPCBOe3');
+          request.setRequestHeader("Content-Type", file.type);
+        },
+        url: serverUrl,
+        data: file,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+
+          console.log("File available at: " + data.url);
+        },
+        error: function(data) {
+          var obj = jQuery.parseJSON(data);
+          alert(obj.error);
+        }
+      });
+    });
+
+
+  };
+
+  //change this to utilize Parse collection
+function saveRouteInfo() {
+  	routesCollection.save(newRoute.options,{
+			success: function(routesCollection){
+				console.log("Success!")
+			},
+			error: function(routesCollection, error){
+				console.log("No Luck!")
+			}
+		})
+  }
+
+
+
+
+//navigation animations
 function animateGettingStarted() {
 		$(".getting-started").hide();
 		$(".getting-started-overlay").animate({
@@ -169,78 +196,44 @@ function hideMyRoutes () {
 	$(".my-routes-display").hide();
 }
 
-// function profilePicture() {
-// 	var photoToLoad = $("#profilePhotoFileUpload");
-// 	var file = photoToLoad.file;
-//   	var name = "photo.jpg";
-// 	var parseFile = new Parse.File(name, file);
-// 	$(".img-holder").css("background-image", file)
-// }
+
+//page stuff...
+function entryConfirmation() {
+		$('input').val("");
+		$('textarea').val("");
+		updateRouteList(routeCollection);
+		animateToHomeScreen();
+}
 
 
-function uploadImage () {
-    var file;
+function entryCancellation(){
+		routeCollection.pop();
+		animateToHomeScreen();
+		updateRouteList(routeCollection);
+}
 
-    // Set an event listener on the Choose File field.
-    $('#profilePhotoFileUpload').bind("change", function(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      // Our file var now holds the selected file
-      file = files[0];
-    });
+function updateRouteList(list){
+	var ul = $(".route-list ul")
+	var myRoutesDisplay = $(".my-routes-list")
+	myRoutesDisplay.html('')
+	ul.html('')
+	
 
-    // This function is called when the user clicks on Upload to Parse. It will create the REST API request to upload this image to Parse.
-    $('#submit-photo').click(function() {
-      var serverUrl = 'https://api.parse.com/1/files/' + file.name;
-
-      $.ajax({
-        type: "POST",
-        beforeSend: function(request) {
-          request.setRequestHeader("X-Parse-Application-Id", 't6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt');
-          request.setRequestHeader("X-Parse-REST-API-Key", 'KJsEJix8NpFAomBtNBnPztvYm1cdKVojSOPCBOe3');
-          request.setRequestHeader("Content-Type", file.type);
-        },
-        url: serverUrl,
-        data: file,
-        processData: false,
-        contentType: false,
-        success: function(data) {
-
-          console.log("File available at: " + data.url);
-        },
-        error: function(data) {
-          var obj = jQuery.parseJSON(data);
-          alert(obj.error);
-        }
-      });
-    });
-
-
-  };
-  function saveRouteInfo() {
-  	routesCollection.save(newRoute.options,{
-			success: function(routesCollection){
-				console.log("Success!")
-			},
-			error: function(routesCollection, error){
-				console.log("No Luck!")
-			}
-		})
-  }
-
-function previewImage () {
-		var file;
-
-    // Set an event listener on the Choose File field.
-    $('#profilePhotoFileUpload').bind("change", function(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      // Our file var now holds the selected file
-      file = files[0];
-    });
-
-    // This function is called when the user clicks on Upload to Parse. It will create the REST API request to upload this image to Parse.
-    $('#preview-image').click(function() {
-      var imgText = '<img src="' + file + '">'
-      $(".img-holder").append(imgText);
-    });
-  }
+	list.forEach(function(o) {
+		var text = "<li>" + o.routename + ", " + o.routerating + "</li>";
+		ul.append(text);
+		var routeId = o.routename.replace(" ", "-");
+		var routeToggles = 
+		'<button type="button" class="btn btn-large btn-block btn-primary" data-toggle="collapse" ' + 
+		'data-target="#' + routeId + '-description">' + o.routename + ", " + o.routerating +'</button>' 
+		+ '<div id="' + routeId + '-description" class="collapse">' + 
+			'<h5>Route Type: ' + o.routetype + '</h5><br>' + 
+			'<h5>Route Degree: ' + o.routedegree + '</h5><br>' + 
+			'<h5>Rock Type: ' + o.rocktype + '</h5><br>' + 
+			'<blockquote><strong>Route Description:</strong><br>' + '<p>' + o.routedesc + '</p></blockquote><br>' + 
+		'</div>';
+		
+		myRoutesDisplay.append(routeToggles);
+	})
+}
 

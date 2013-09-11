@@ -1,7 +1,9 @@
 $(document).ready(function () {
 	updateRouteList(routeCollection);
 	clickEvents();
+	uploadImage();
 });
+Parse.initialize("t6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt", "anOSummNpwlSlsWKuELaWQ3y3PoaYqbI1zZ782fF");
 
 
 // all click events decoupled from their associated functions
@@ -20,7 +22,6 @@ function clickEvents() {
 	$("#show-preview-btn").click(function(){generateRoutePreview()});
 	$("#confirm-route").click(function(){entryConfirmation()});
 	$("#cancel-route").click(function(){entryCancellation()});
-	$("#submit-photo").click(function(){profilePicture()});
 }
 
 
@@ -61,25 +62,37 @@ var Route = function (options) {
 	this.routedegree = options.routedegree;
 	this.rocktype = options.rocktype;
 	this.routedesc = options.routedesc;
-	this.previewRoute = function() {
-		$(".routename").val(this.routename);
-		$(".routerating").val(this.routerating);
-		$(".routetype").val(this.routetype);
-		$(".routedegree").val(this.routedegree);
-		$(".rocktype").val(this.rocktype);
-		$(".routedesc").val(this.routedesc);
-	}
-
 }
 
 
 
+var RoutesCollection = Parse.Object.extend("RoutesCollection")
+var routesCollection = new RoutesCollection();
 
 
+
+// doesnt work - doesnt need to
+
+// var Route = Parse.Object.extend("Route", {
+	
+// 	routeData: function (options) {
+// 		var newRoute = new Route();
+
+// 		newRoute.set("routename", options.routename);
+// 		newRoute.set("routerating", options.routerating);
+// 		newRoute.set("routetype", options.routetype);
+// 		newRoute.set("routedegree", options.routedegree);
+// 		newRoute.set("rocktype", options.rocktype);
+// 		newRoute.set("routedesc", options.routedesc);
+// 	}
+// });
+
+// var myRoute = Route.routeData(getFormValues);
 
 function generateRoutePreview(){
 		animateShowPreview();
-		var newRoute = new Route(getFormValues());
+		// only thing that isn't quite right about my setup.  global variable
+		newRoute = new Route(getFormValues());
 		$("#routename-preview").html(newRoute.routename)
 		$("#routerating-preview").html(newRoute.routerating)
 		$("#routetype-preview").html(newRoute.routetype)
@@ -93,7 +106,20 @@ function entryConfirmation() {
 		$('textarea').val("");
 		updateRouteList(routeCollection);
 		animateToHomeScreen();
+
+
+		//boom
+		routesCollection.save(newRoute.options,{
+			success: function(routesCollection){
+				console.log("Success!")
+			},
+			error: function(routesCollection, error){
+
+			}
+		})
 	}
+
+
 function entryCancellation(){
 		routeCollection.pop();
 		animateToHomeScreen();
@@ -178,7 +204,43 @@ function hideMyRoutes () {
 // }
 
 
+function uploadImage () {
+    var file;
 
+    // Set an event listener on the Choose File field.
+    $('#profilePhotoFileUpload').bind("change", function(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      // Our file var now holds the selected file
+      file = files[0];
+    });
+
+    // This function is called when the user clicks on Upload to Parse. It will create the REST API request to upload this image to Parse.
+    $('#submit-photo').click(function() {
+      var serverUrl = 'https://api.parse.com/1/files/' + file.name;
+
+      $.ajax({
+        type: "POST",
+        beforeSend: function(request) {
+          request.setRequestHeader("X-Parse-Application-Id", 't6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt');
+          request.setRequestHeader("X-Parse-REST-API-Key", 'KJsEJix8NpFAomBtNBnPztvYm1cdKVojSOPCBOe3');
+          request.setRequestHeader("Content-Type", file.type);
+        },
+        url: serverUrl,
+        data: file,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          console.log("File available at: " + data.url);
+        },
+        error: function(data) {
+          var obj = jQuery.parseJSON(data);
+          alert(obj.error);
+        }
+      });
+    });
+
+
+  };
 
 
 

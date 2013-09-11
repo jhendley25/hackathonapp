@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	updateRouteList(routeCollection);
 	clickEvents();
-	uploadImage();
+
 });
 Parse.initialize("t6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt", "anOSummNpwlSlsWKuELaWQ3y3PoaYqbI1zZ782fF");
 
@@ -62,36 +62,32 @@ var Route = function (options) {
 	this.routedegree = options.routedegree;
 	this.rocktype = options.rocktype;
 	this.routedesc = options.routedesc;
-}
+	this.previewImage = function() {
+		var file;
 
+    // Set an event listener on the Choose File field.
+    $('#profilePhotoFileUpload').bind("change", function(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      // Our file var now holds the selected file
+      file = files[0];
+    });
+
+    // This function is called when the user clicks on Upload to Parse. It will create the REST API request to upload this image to Parse.
+    $('#preview-image').click(function() {
+      var imgText = '<img src="' + file + '">'
+      $(".img-holder").append(imgText);
+    });
+  }
+}
 
 
 var RoutesCollection = Parse.Object.extend("RoutesCollection")
 var routesCollection = new RoutesCollection();
 
 
-
-// doesnt work - doesnt need to
-
-// var Route = Parse.Object.extend("Route", {
-	
-// 	routeData: function (options) {
-// 		var newRoute = new Route();
-
-// 		newRoute.set("routename", options.routename);
-// 		newRoute.set("routerating", options.routerating);
-// 		newRoute.set("routetype", options.routetype);
-// 		newRoute.set("routedegree", options.routedegree);
-// 		newRoute.set("rocktype", options.rocktype);
-// 		newRoute.set("routedesc", options.routedesc);
-// 	}
-// });
-
-// var myRoute = Route.routeData(getFormValues);
-
 function generateRoutePreview(){
 		animateShowPreview();
-		// only thing that isn't quite right about my setup.  global variable
+		// one thing that isn't quite right about my setup.  global variable
 		newRoute = new Route(getFormValues());
 		$("#routename-preview").html(newRoute.routename)
 		$("#routerating-preview").html(newRoute.routerating)
@@ -106,18 +102,9 @@ function entryConfirmation() {
 		$('textarea').val("");
 		updateRouteList(routeCollection);
 		animateToHomeScreen();
-
-
-		//boom
-		routesCollection.save(newRoute.options,{
-			success: function(routesCollection){
-				console.log("Success!")
-			},
-			error: function(routesCollection, error){
-
-			}
-		})
-	}
+		uploadImage();
+		saveRouteInfo();
+}
 
 
 function entryCancellation(){
@@ -230,6 +217,7 @@ function uploadImage () {
         processData: false,
         contentType: false,
         success: function(data) {
+
           console.log("File available at: " + data.url);
         },
         error: function(data) {
@@ -241,6 +229,16 @@ function uploadImage () {
 
 
   };
+  function saveRouteInfo() {
+  	routesCollection.save(newRoute.options,{
+			success: function(routesCollection){
+				console.log("Success!")
+			},
+			error: function(routesCollection, error){
+				console.log("No Luck!")
+			}
+		})
+  }
 
 
 

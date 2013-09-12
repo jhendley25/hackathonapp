@@ -312,3 +312,15 @@ body {
 	}
 
 }
+.modify-route-buttons {
+	position: relative;
+	top: 0;
+	right: 0;
+	float: right;
+}
+#confirm-route-update-button {
+	display: none;
+}
+#show-preview-btn {
+	display: block;
+}

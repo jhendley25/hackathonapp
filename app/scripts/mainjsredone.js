@@ -1,9 +1,17 @@
 $(document).ready(function () {
-	updateRouteList(routeCollection);
 	clickEvents();
-
+	
 });
 Parse.initialize("t6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt", "anOSummNpwlSlsWKuELaWQ3y3PoaYqbI1zZ782fF");
+
+//testing - and it worked
+// var TestObject = Parse.Object.extend("TestObject");
+// var testObject = new TestObject();
+// testObject.save({foo: "bar"}, {
+//   success: function(object) {
+//     alert("yay! it worked");
+//   }
+// });
 
 
 // all click events decoupled from their associated functions
@@ -25,19 +33,14 @@ function clickEvents() {
 }
 
 
-// routeCollection initialized with three predefined objects for display purposes
-routeCollection = [
-	{routename:"Ball Scratcher", routerating: "5.12",routetype: "Sport", routedegree: "Overhanging", rocktype: "Sandstone", routedesc: "Move right from Heart Shaped Box about 50 feet to a rounded arete where the approach trail meets the wall. Balance up the creepy arete to the anchors"},
-	{routename: "Chainsaw Massacre", routerating: "5.12",routetype: "Sport", routedegree: "Overhanging", rocktype: "Sandstone", routedesc: "Classic Enduro climbing. This route provides a good introduction to the steeper routes at The Lode.  Begin atop the low boulder. Climb up, then make a tough move left to a good shake.  Paddle up on good edges in a groove between two blank walls, keeping enough energy in reserve to clip the anchors."},
-	{routename: "Transworld Depravity", routerating: "5.14",routetype: "Sport", routedegree: "Overhanging", rocktype: "Sandstone", routedesc: "Walk right from Cosmic Sausage to the beginning of the obvious overhang of the Madness Cave.  Begin by climbing through roughly 60 feet of 5.12c moves to a rest.  When recovered, power through a hard move to reach sustained tough climbing, which leads to another hard move. Finish by romping up the relaxing 5.13a moves to the anchors."}
-];
-
 //Parse constructor
 var Route = Parse.Object.extend('Route', 
 
+{//no instance methods
+},
 { //class methods
 		createFromForm: function(){
-
+			newRoute = new Route()
 			var routeNameVal = $("#routename").val()
 			var routeRatingVal = $("#routerating").val()
 			var routeTypeVal = $("#routetype").val()
@@ -46,7 +49,7 @@ var Route = Parse.Object.extend('Route',
 			var routeDescVal = $("#routedesc").val()
 			
 			
-			newRoute = new Route()
+
 
 			newRoute.set("name", routeNameVal)
 			newRoute.set("rating", routeRatingVal)
@@ -55,84 +58,173 @@ var Route = Parse.Object.extend('Route',
 			newRoute.set("rocktype", rockTypeVal)
 			newRoute.set("desc", routeDescVal)
 
-			return route
+			return newRoute
 			}
 		}
 );
 
+var RouteCollection = Parse.Collection.extend({
+	model: Route
+	})
 
+var routes = new RouteCollection();
 
+routes.fetch({
+	success:function(collection){
+		collection.each(function(route){
+			updateSidebar(route);
+			updateMyRoutes(route);
 
+		})
+	}
+})
 
-
-//incorporate this into the constructor!!!!!!!!!!!!!
+//incorporate this into the constructor!!!!! - maybe
 function generateRoutePreview(){
+		var newRoute = Route.createFromForm()
+		animateShowPreview()
 		$("#routename-preview").html(newRoute.get("name"))
 		$("#routerating-preview").html(newRoute.get("rating"))
 		$("#routetype-preview").html(newRoute.get("type"))
 		$("#routedegree-preview").html(newRoute.get("degree"))
 		$("#rocktype-preview").html(newRoute.get("rocktype"))
 		$("#routedesc-preview").html(newRoute.get("desc"))
+		
+} //this works
+
+ 
+
+function updateSidebar(route) {
+	var ul = $(".route-list ul")
+	var text = "<li>" + route.get("name") + ", " + route.get("rating") + "</li>";
+		ul.append(text);
+}
+
+function updateMyRoutes(route) {
+
+	var myRoutesDisplay = $(".my-routes-list")
+	var routeId = route.id;
+	var accordianButton = 
+				//the button itself
+				'<button type="button" class="btn btn-large btn-block btn-primary" data-toggle="collapse" ' + 
+				'data-target="#' + routeId + '">' + route.get("name") + ", " + route.get("rating") +'</button>'
+				//the accordian data
+				+ '<div id="' + routeId + '" class="collapse">' + 
+				//edit & delete buttons
+				 '<div class="modify-route-buttons">' + 
+  					'<button type="button" class="btn btn-primary btn-xs edit-route-button" id="' + routeId + '">Edit</button>&nbsp;' +
+ 					'<button type="button" class="btn btn-primary btn-xs delete-route-button" id="' + routeId + '">Delete</button>'
+				+ '</div>'
+				//route info
+					+'<h5>Route Type: ' + route.get("type") + '</h5><br>' + 
+					'<h5>Route Degree: ' + route.get("degree") + '</h5><br>' + 
+					'<h5>Rock Type: ' + route.get("rocktype") + '</h5><br>' + 
+					'<blockquote><strong>Route Description:</strong><br>' + '<p>' + route.get("desc") + '</p></blockquote><br>'
+				+'</div>'
+	myRoutesDisplay.append(accordianButton)
+
+	$('.edit-route-button').click(function(){
+		var id = this.id;
+		hideMyRoutes();
+		editRoute(id);
+
+	})
 }
 
 
 
 
-
-
-//incorporate this into route constructor
-function uploadImage () {
-    var file;
-
-    // Set an event listener on the Choose File field.
-    $('#profilePhotoFileUpload').bind("change", function(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      // Our file var now holds the selected file
-      file = files[0];
-    });
-
-    // This function is called when the user clicks on Upload to Parse. It will create the REST API request to upload this image to Parse.
-    $('#submit-photo').click(function() {
-      var serverUrl = 'https://api.parse.com/1/files/' + file.name;
-
-      $.ajax({
-        type: "POST",
-        beforeSend: function(request) {
-          request.setRequestHeader("X-Parse-Application-Id", 't6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt');
-          request.setRequestHeader("X-Parse-REST-API-Key", 'KJsEJix8NpFAomBtNBnPztvYm1cdKVojSOPCBOe3');
-          request.setRequestHeader("Content-Type", file.type);
-        },
-        url: serverUrl,
-        data: file,
-        processData: false,
-        contentType: false,
-        success: function(data) {
-
-          console.log("File available at: " + data.url);
-        },
-        error: function(data) {
-          var obj = jQuery.parseJSON(data);
-          alert(obj.error);
-        }
-      });
-    });
-
-
-  };
-
-  //change this to utilize Parse collection
 function saveRouteInfo() {
-  	routesCollection.save(newRoute.options,{
-			success: function(routesCollection){
+  	newRoute.save(newRoute.options,{
+			success: function(route){
 				console.log("Success!")
+				updateSidebar(route);
+				updateMyRoutes(route);
 			},
-			error: function(routesCollection, error){
+			error: function(route, error){
 				console.log("No Luck!")
 			}
 		})
   }
 
 
+
+function editRoute(id) {
+	var id = id;
+	var query = new Parse.Query(Route);
+	query.get(id, {
+		success: function(route){
+			$("#routename").val(route.get("name"))
+			$("#routerating").val(route.get("rating"))
+			$("#routetype").val(route.get("type"))
+			$("#routedegree").val(route.get("degree"))
+			$("#rocktype").val(route.get("rocktype"))
+			$("#routedesc").val(route.get("desc"))
+			//hide preview btn, show update btn
+			$("#show-preview-btn").css("display", "none");
+			$("#confirm-route-update-button").css("display", "block");
+			$("#confirm-route-update-button").click(function(){confirmUpdate(route)});
+
+			
+			
+		},
+		error: function(route, error) {
+			console.log("no luck getting the object")
+		}
+	})
+	
+}
+
+function refreshRouteLists() {
+	
+	routes.fetch({
+	success:function(collection){
+		
+		collection.each(function(route){
+
+			updateSidebar(route);
+			updateMyRoutes(route);
+			
+		})
+	}
+})
+
+}
+
+
+function confirmUpdate(route) {
+	
+				route.set("name", $("#routename").val())
+				route.set("rating", $("#routerating").val())
+				route.set("type", $("#routetype").val())
+				route.set("degree", $("#routedegree").val())
+				route.set("rocktype", $("#rocktype").val())
+				route.set("desc", $("#routedesc").val())
+				route.save()
+				$("#show-preview-btn").css("display", "block");
+				$("#confirm-route-update-button").css("display", "none");
+				$('input').val("");
+				$('textarea').val("");
+				showMyRoutes();
+				setTimeout(function() {
+					refreshRouteLists()
+				}, 2000);
+
+}
+
+// function toggleButtonVisibility() {
+// 	if ($("#show-preview-btn").css("display") == "block") {
+// 		$("#show-preview-btn").css("display", "none");
+// 		$("#confirm-route-update-button").css("display", "block");
+// 	} else {
+// 		$("#show-preview-btn").css("display", "block");
+// 		$("#confirm-route-update-button").css("display", "none");
+// 	}
+// }
+
+// function timingOut() {
+// 	setTimeout('refreshRouteLists()',2000)
+// }
 
 
 //navigation animations
@@ -183,41 +275,17 @@ function hideMyRoutes () {
 function entryConfirmation() {
 		$('input').val("");
 		$('textarea').val("");
-		updateRouteList(routeCollection);
+		saveRouteInfo()
 		animateToHomeScreen();
 }
 
 
 function entryCancellation(){
-		routeCollection.pop();
+
 		animateToHomeScreen();
-		updateRouteList(routeCollection);
 }
 
-function updateRouteList(list){
-	var ul = $(".route-list ul")
-	var myRoutesDisplay = $(".my-routes-list")
-	myRoutesDisplay.html('')
-	ul.html('')
-	
 
-	list.forEach(function(o) {
-		var text = "<li>" + o.routename + ", " + o.routerating + "</li>";
-		ul.append(text);
-		var routeId = o.routename.replace(" ", "-");
-		var routeToggles = 
-		'<button type="button" class="btn btn-large btn-block btn-primary" data-toggle="collapse" ' + 
-		'data-target="#' + routeId + '-description">' + o.routename + ", " + o.routerating +'</button>' 
-		+ '<div id="' + routeId + '-description" class="collapse">' + 
-			'<h5>Route Type: ' + o.routetype + '</h5><br>' + 
-			'<h5>Route Degree: ' + o.routedegree + '</h5><br>' + 
-			'<h5>Rock Type: ' + o.rocktype + '</h5><br>' + 
-			'<blockquote><strong>Route Description:</strong><br>' + '<p>' + o.routedesc + '</p></blockquote><br>' + 
-		'</div>';
-		
-		myRoutesDisplay.append(routeToggles);
-	})
-}
 
 
 

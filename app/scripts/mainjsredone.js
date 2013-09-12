@@ -35,22 +35,7 @@ routeCollection = [
 //Parse constructor
 var Route = Parse.Object.extend('Route', 
 
-{
-	
-	//instance methods
-	setImage: function(){
-		
-		$('#profilePhotoFileUpload').bind("change", function(e) {
-		      var files = e.target.files || e.dataTransfer.files;
-		      // Our file var now holds the selected file
-		      file = files[0];
-		      var routePictureFile = file;
-		      route.set('routeImage', routePictureFile);
-
-    	});
-	}
-},
-	{ //class methods
+{ //class methods
 		createFromForm: function(){
 
 			var routeNameVal = $("#routename").val()
@@ -61,14 +46,14 @@ var Route = Parse.Object.extend('Route',
 			var routeDescVal = $("#routedesc").val()
 			
 			
-			route = new Route()
+			newRoute = new Route()
 
-			route.set("name", routeNameVal)
-			route.set("rating", routeRatingVal)
-			route.set("type", routeTypeVal)
-			route.set("degree", routeDegreeVal)
-			route.set("rocktype", rockTypeVal)
-			route.set("desc", routeDescVal)
+			newRoute.set("name", routeNameVal)
+			newRoute.set("rating", routeRatingVal)
+			newRoute.set("type", routeTypeVal)
+			newRoute.set("degree", routeDegreeVal)
+			newRoute.set("rocktype", rockTypeVal)
+			newRoute.set("desc", routeDescVal)
 
 			return route
 			}
@@ -82,17 +67,14 @@ var Route = Parse.Object.extend('Route',
 
 //incorporate this into the constructor!!!!!!!!!!!!!
 function generateRoutePreview(){
-		animateShowPreview();
-		// one thing that isn't quite right about my setup.  global variable
-		newRoute = new Route(getFormValues());
-		$("#routename-preview").html(newRoute.routename)
-		$("#routerating-preview").html(newRoute.routerating)
-		$("#routetype-preview").html(newRoute.routetype)
-		$("#routedegree-preview").html(newRoute.routedegree)
-		$("#rocktype-preview").html(newRoute.rocktype)
-		$("#routedesc-preview").html(newRoute.routedesc)
-		routeCollection.push(newRoute);
+		$("#routename-preview").html(newRoute.get("name"))
+		$("#routerating-preview").html(newRoute.get("rating"))
+		$("#routetype-preview").html(newRoute.get("type"))
+		$("#routedegree-preview").html(newRoute.get("degree"))
+		$("#rocktype-preview").html(newRoute.get("rocktype"))
+		$("#routedesc-preview").html(newRoute.get("desc"))
 }
+
 
 
 
@@ -236,4 +218,6 @@ function updateRouteList(list){
 		myRoutesDisplay.append(routeToggles);
 	})
 }
+
+
 

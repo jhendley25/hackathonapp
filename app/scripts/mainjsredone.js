@@ -176,12 +176,11 @@ function editRoute(id) {
 }
 
 function refreshRouteLists() {
-	
+	$(".my-routes-list").html("");
+	$(".route-list ul").html("");
 	routes.fetch({
 	success:function(collection){
-		
 		collection.each(function(route){
-
 			updateSidebar(route);
 			updateMyRoutes(route);
 			
@@ -206,9 +205,7 @@ function confirmUpdate(route) {
 				$('input').val("");
 				$('textarea').val("");
 				showMyRoutes();
-				setTimeout(function() {
-					refreshRouteLists()
-				}, 2000);
+				
 
 }
 

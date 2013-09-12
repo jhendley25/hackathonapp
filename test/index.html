@@ -14,13 +14,190 @@
     <script>var expect = chai.expect</script>
 
     <!-- include source files here... -->
+    <script src="http://www.parsecdn.com/js/parse-1.2.10.min.js"></script>
     <script src="../app/bower_components/jquery/jquery.min.js"></script>
-    <script src="../app/scripts/main.js"></script>
+    <script src="../app/scripts/mainjsredone.js"></script>
     
     <!-- include spec files here... -->
     <script src="spec/test.js"></script>
     
 
     <script>mocha.run()</script>
+
+    <!-- body to test -->
+    <body>
+
+  <div class="background-image">
+    <img src="../assets/climbing-bkgd2.jpg">
+  </div>
+
+<!-- fixed header -->
+  <div class="header-fixed">
+    <div class="header-content-wrapper">
+      <a href="#"><h1>Beta-fy!</h1></a></a>
+      <button class="btn btn-primary btn-lg" id="home-btn"><h2>Home</h2></a></button>
+      <button class="btn btn-primary btn-lg" id="about-btn"><h2>About</h2></a></button>
+      <button class="btn btn-primary btn-lg" id="my-routes"><h2>My Routes</h2></button>
+    </div>
+  </div>
+
+<!-- main content wrappers -->
+  <div class="wrapper960">
+    <div class="content960">
+
+<!-- left column stuff -->
+      <div class="leftcolumn">
+
+    <!-- getting-started - display  -->
+        <div class="getting-started">
+          <div class="inner-box">
+            <p>Getting Started is Easy! <br> Just click:</p>
+              <button type="button" id="getting-started-btn" class="btn btn-primary btn-lg">New Route!</button>
+          </div>
+        </div>
+    <!-- end getting started -->
+
+
+    <!-- actual left column content displayed after starting -->
+        <div class="home-left-column">
+
+          <h3>Getting Started:</h3>
+         <ol>
+          <li>Enter Route Info</li>
+          <li>Upload a Picture</li>
+          <li>Click Preview</li>
+        </ol>
+
+          <button id="show-preview-btn" type="button"  class="btn btn-primary btn-lg">Preview</button>
+          <button id="confirm-route-update-button" type="button"  class="btn btn-primary btn-lg">Update</button>
+
+    <!-- list current routes in routeCollection -->
+
+          <h3>Your Routes:</h3>
+            <div class="route-list">
+              <ul>
+                <!-- route list populated here -->
+              </ul>
+            </div>
+        </div>
+
+      </div> 
+<!-- end left column  -->
+        
+<!-- right column content -->
+      <div class="rightcolumn">
+    <!-- logo overlay -->
+        <div class="getting-started-overlay">
+         
+          <span class="welcome-logo">
+            Welcome to Beta-fy!
+          </span>
+        </div>
+
+      <!-- route preview overlay -->
+      <div class="preview-route-info">
+        <h1>Route Preview</h1>
+          <dl>
+            <dt>Route Name</dt>
+              <dd>
+                <span id="routename-preview"></span>
+              </dd>
+            <dt>Route Rating</dt>
+              <dd>
+                <span id="routerating-preview"></span>
+              </dd>
+            <dt>Route Type</dt>
+              <dd>
+                <span id="routetype-preview"></span>
+              </dd>
+            <dt>Route Degree</dt>
+              <dd>
+                <span id="routedegree-preview"></span>
+              </dd>
+            <dt>Rock Type</dt>
+              <dd>
+                <span id="rocktype-preview"></span>
+              </dd>
+            <dt>Rock Description</dt>
+              <dd>
+                <span id="routedesc-preview"></span>
+              </dd>
+          </dl>
+          <button type="button" id="confirm-route" class="btn btn-primary btn-lg">Confirm</button>
+          <button type="button" id="cancel-route" class="btn btn-primary btn-lg">Cancel</button>
+      </div>
+
+
+<!-- my routes page overlay -->
+
+      <div class="my-routes-overlay">
+        <h1>Route Collection</h1>
+          <hr>
+        <div class="my-routes-list">
+      <!-- routes list accordian populated here -->
+        </div>
+      </div>
+
+<!-- end my routes page overlay -->
+
+
+            <!-- route info form -->
+            <div class="route-info-form">
+                <h2>Route information:</h2>
+                <input id="routename" class="form-control" type="text" placeholder="Route Name">
+                <h3>Rating:</h3>
+                <!-- rating select dropdown  -->
+                <div class="col-lg-4">
+                  <select id="routerating" class="select-box">
+                    <option>5.5</option>
+                    <option>5.6</option>
+                    <option>5.7</option>
+                    <option>5.8</option>
+                    <option>5.9</option>
+                    <option>5.10</option>
+                    <option>5.11</option>
+                    <option>5.12</option>
+                    <option>5.13</option>
+                    <option>5.14</option>
+                    <option>5.15</option>
+                    <option>Project</option>
+                  </select>
+                </div>
+
+                <input id="routetype" class="form-control" type="text" placeholder="Sport, Trad, or Bouldering?">
+                <input id="routedegree" class="form-control" type="text" placeholder="Overhanging, Dead Vertical, or Slab">
+                <input id="rocktype" class="form-control" type="text" placeholder="Rock Type">
+
+                <h3>Description</h3>
+                <textarea id="routedesc" class="form-control" rows="3" placeholder="Betafy your fellow climber!"></textarea>
+            </div>
+
+            <!-- route image attached to upper right of main area -->
+            <div class="img-holder">
+              <div class="img-upload-btns">
+              <input type="file" id="profilePhotoFileUpload">
+              <button id="#preview-image">Preview</button>
+              </div>
+            </div>
+
+        </div> <!-- end of right column area -->
+    </div> <!-- end of content960 wrapper-->
+</div><!-- end of wrapper960 -->
+
+<!-- junk  -->
+
+
+
+
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/jquery.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        
+        <!-- endbuild -->
+</body>
 </body>
 </html>

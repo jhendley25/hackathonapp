@@ -129,9 +129,28 @@ function updateMyRoutes(route) {
 		editRoute(id);
 
 	})
+	$(".delete-route-button").click(function(){
+		var id = this.id;
+		deleteRoute(id); //modify later to display modal
+	})
 }
 
-
+function deleteRoute(id) {
+	var id = id;
+	var query = new Parse.Query(Route);
+	query.get(id, {
+		success: function(routeToDestroy){
+			routeToDestroy.destroy({
+				success: function(Route){
+					console.log("route successfully removed")
+				},
+				error: function(route, error){
+					console.log("route not deleted")
+				}
+			})
+		}
+	})
+}
 
 
 function saveRouteInfo() {
@@ -202,26 +221,16 @@ function confirmUpdate(route) {
 				route.save()
 				$("#show-preview-btn").css("display", "block");
 				$("#confirm-route-update-button").css("display", "none");
-				$('input').val("");
-				$('textarea').val("");
+				// $('input').val("");
+				// $('textarea').val("");
 				showMyRoutes();
-				
+				// setTimeout(function() {
+				// 	refreshRouteLists()
+				// }, 2000);
 
 }
 
-// function toggleButtonVisibility() {
-// 	if ($("#show-preview-btn").css("display") == "block") {
-// 		$("#show-preview-btn").css("display", "none");
-// 		$("#confirm-route-update-button").css("display", "block");
-// 	} else {
-// 		$("#show-preview-btn").css("display", "block");
-// 		$("#confirm-route-update-button").css("display", "none");
-// 	}
-// }
 
-// function timingOut() {
-// 	setTimeout('refreshRouteLists()',2000)
-// }
 
 
 //navigation animations

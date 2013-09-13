@@ -7,9 +7,11 @@ $blue-grey: rgb(13, 76, 111);
 $lighter-blue-grey: rgb(24, 139, 206);
 $logo-primary: rgb(255, 176, 59);
 $logo-secondary: rgb(182, 73, 38);
-
+$dark-blue-overlay: rgba(11, 61, 89, 0.7);
+$header-blue: rgb(17, 75, 107);
+$header-font-blue: rgb(145, 196, 206);
 $blue-gradient: linear-gradient(top left, $blue-base-color, darken($blue-base-color, 20%));
-
+$main-light-blue:rgba(193, 249, 254, 0.75);
 $background-photo: url(../assets/climbing-bkgd2.jpg);
 
 * {
@@ -53,7 +55,7 @@ body {
 	top: 0;
 	right: 0;
 	left: 0;
-	background-color: $header-footer-color;
+	background-color: $header-blue;
 	z-index: 1000;
 	/*box-shadow: 1px 1px 1px darken($header-footer-color, 20%);*/
 /*	border-top-left-radius: 15px;
@@ -67,7 +69,7 @@ body {
 	margin: 0 auto;
 	/*display: inline-block;*/
 	h1, h2 {
-		color: white;
+		color: $header-font-blue;
 		text-shadow: 1px 1px 1px #000;
 	}
 	h1 {
@@ -125,7 +127,7 @@ body {
 	height: 100%;
 	background: linear-gradient(top left, $medium-blue, darken($medium-blue, 10%));
 	/*css to change with jquery click hide()*/
-	display: block;
+	display: none;
 	
 }
 .getting-started-overlay {
@@ -134,7 +136,7 @@ body {
 	background-color: $blue-base-color;
 	position: absolute;
 	left: 0;
-	display: block;
+	display: none;
 	z-index: 10000;
 	text-align: center;
 	
@@ -213,7 +215,8 @@ body {
 	top: 0;
 	right: 0;
 	/*background-color: rgba(93, 249, 254, 0.8);*/
-	background-color: rgba(193, 249, 254, 0.75);
+	background: $main-light-blue;
+	box-shadow: inset 0 0 5px #000000;
 }
 .img-holder {
 	height:350px;
@@ -224,7 +227,7 @@ body {
 	background-color: #ccc;
 	box-shadow: -1px 1px 2px #000;
 	z-index: 100;
-	display: none;
+	display: block;
 }
 
 .route-info-form {
@@ -274,20 +277,21 @@ body {
 
 #home-btn, #about-btn, #my-routes {
 	padding: 5px;
-	background-color: $header-footer-color;
+	background-color: $header-blue;
+	
 	border: none;
 	h2 {
 		margin: 0px;
 	}
 	&:hover {
-		background-color: darken($header-footer-color, 10%);
+		background-color: lighten($header-blue, 10%);
 	}
 }
 /*#home-btn:hover, #about-btn:hover, #my-routes:hover {
 
 }*/
 .home-left-column {
-	display: none;
+	display: block;
 }
 .select-box {
 	display: block;
@@ -325,5 +329,26 @@ body {
 	display: block;
 }
 .route-list {
+	height: 300px;
+	width: 90%;
+	padding: 3px;
+	margin: 0 auto;
 	overflow: scroll;
+	background: $main-light-blue;
+	border-radius: 10px;
+	border: 10px solid $dark-blue-overlay;
+	box-shadow: inset 0 0 5px #000;
+	li {
+		list-style-type: none;
+		margin: 0 0 0 15px;
+
+	}
+}
+.bkgd-overlay {
+	background: $dark-blue-overlay;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
 }

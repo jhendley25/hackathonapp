@@ -26,7 +26,7 @@ function clickEvents() {
 			animateGettingStarted();
 		}
 	});
-	$("#getting-started-btn").click(function(){animateGettingStarted()});
+	// $("#getting-started-btn").click(function(){animateGettingStarted()});
 	$("#show-preview-btn").click(function(){generateRoutePreview()});
 	$("#confirm-route").click(function(){entryConfirmation()});
 	$("#cancel-route").click(function(){entryCancellation()});
@@ -183,7 +183,7 @@ function editRoute(id) {
 			$("#show-preview-btn").css("display", "none");
 			$("#confirm-route-update-button").css("display", "block");
 			$("#confirm-route-update-button").click(function(){confirmUpdate(route)});
-
+			
 			
 			
 		},

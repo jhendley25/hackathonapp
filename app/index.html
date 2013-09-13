@@ -225,5 +225,21 @@
         <script src="bower_components/sass-bootstrap/js/collapse.js"></script>
         <script src="bower_components/sass-bootstrap/js/tab.js"></script>
         <!-- endbuild -->
+
+        <script type="text/template" id="accordian-template">
+          <button type="button" class="btn btn-large btn-block btn-primary" data-toggle="collapse" data-target="#<%= routeId %>">
+            <%= route.get("name") %> , <%= route.get("rating") %>
+          </button>
+          <div id="<%= routeId %>" class="collapse">
+          <div class="modify-route-buttons">
+            <button type="button" class="btn btn-primary btn-xs edit-route-button" id="<%= routeId %>">Edit</button>&nbsp;
+              <button type="button" class="btn btn-primary btn-xs delete-route-button" id="<%= routeId %>">Delete</button>
+          </div>
+            <h5>Route Type: <%= route.get("type") %> </h5><br>
+            <h5>Route Degree: <%= route.get("degree") %> </h5><br>
+            <h5>Rock Type: <%= route.get("rocktype") %> </h5><br>
+            <blockquote><strong>Route Description:</strong><br>  <p> <%= route.get("desc") %> </p></blockquote><br>
+          </div>
+        </script>
 </body>
 </html>

@@ -104,24 +104,8 @@ function updateMyRoutes(route) {
 
 	var myRoutesDisplay = $(".my-routes-list")
 	var routeId = route.id;
-	var accordianButton = 
-				//the button itself
-				'<button type="button" class="btn btn-large btn-block btn-primary" data-toggle="collapse" ' + 
-				'data-target="#' + routeId + '">' + route.get("name") + ", " + route.get("rating") +'</button>'
-				//the accordian data
-				+ '<div id="' + routeId + '" class="collapse">' + 
-				//edit & delete buttons
-				 '<div class="modify-route-buttons">' + 
-  					'<button type="button" class="btn btn-primary btn-xs edit-route-button" id="' + routeId + '">Edit</button>&nbsp;' +
- 					'<button type="button" class="btn btn-primary btn-xs delete-route-button" id="' + routeId + '">Delete</button>'
-				+ '</div>'
-				//route info
-					+'<h5>Route Type: ' + route.get("type") + '</h5><br>' + 
-					'<h5>Route Degree: ' + route.get("degree") + '</h5><br>' + 
-					'<h5>Rock Type: ' + route.get("rocktype") + '</h5><br>' + 
-					'<blockquote><strong>Route Description:</strong><br>' + '<p>' + route.get("desc") + '</p></blockquote><br>'
-				+'</div>'
-	myRoutesDisplay.append(accordianButton)
+	var accordianButton = _.template( $('#accordian-template').text() ) 
+	myRoutesDisplay.append( accordianButton({routeId: routeId, route: route}) )
 
 	$('.edit-route-button').click(function(){
 		var id = this.id;

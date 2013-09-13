@@ -2,7 +2,6 @@ $blue-base-color: #0033ff;
 $header-footer-color: rgb(42, 73, 215);
 $light-blue: rgb(93, 249, 254);
 $medium-blue: rgb(32, 162, 223);
-$dark-blue: rgb(42, 73, 215);
 $blue-grey: rgb(13, 76, 111);
 $lighter-blue-grey: rgb(24, 139, 206);
 $logo-primary: rgb(255, 176, 59);
@@ -43,7 +42,7 @@ body {
 	position: relative;
 	border-radius: 10px;
 	z-index: 100;
-	box-shadow: 0px 0px 3px $dark-blue;
+	box-shadow: 0px 0px 3px $dark-blue-overlay;
 
 
 }

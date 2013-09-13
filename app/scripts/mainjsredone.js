@@ -143,6 +143,7 @@ function deleteRoute(id) {
 			routeToDestroy.destroy({
 				success: function(Route){
 					console.log("route successfully removed")
+					refreshRouteLists();
 				},
 				error: function(route, error){
 					console.log("route not deleted")
@@ -218,12 +219,21 @@ function confirmUpdate(route) {
 				route.set("degree", $("#routedegree").val())
 				route.set("rocktype", $("#rocktype").val())
 				route.set("desc", $("#routedesc").val())
-				route.save()
-				$("#show-preview-btn").css("display", "block");
-				$("#confirm-route-update-button").css("display", "none");
-				// $('input').val("");
-				// $('textarea').val("");
-				showMyRoutes();
+				route.save(null, {
+					success: function(){
+						$("#show-preview-btn").css("display", "block");
+						$("#confirm-route-update-button").css("display", "none");
+						showMyRoutes();
+						refreshRouteLists();
+			
+					},
+					
+					error: function(){
+						console.log("there was an error saving the function");
+					}
+					
+				})
+				
 				// setTimeout(function() {
 				// 	refreshRouteLists()
 				// }, 2000);

@@ -1,96 +1,65 @@
+// create an instance of RoutesCollection
+routes = new RouteCollection();
+
 $(document).ready(function () {
+	// bind click events
 	clickEvents();
 	
+
+	// fetch the collection 
+	routes.fetch({
+		success:function(collection){
+			collection.each(function(route){
+				updateSidebar(route);
+				updateMyRoutes(route);
+
+			})
+		}
+	})
+
 });
-Parse.initialize("t6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt", "anOSummNpwlSlsWKuELaWQ3y3PoaYqbI1zZ782fF");
-
-//testing - and it worked
-// var TestObject = Parse.Object.extend("TestObject");
-// var testObject = new TestObject();
-// testObject.save({foo: "bar"}, {
-//   success: function(object) {
-//     alert("yay! it worked");
-//   }
-// });
-
 
 // all click events decoupled from their associated functions
 function clickEvents() {
+	var newRoute;
+
 	$("#my-routes").click(function(){showMyRoutes()});
 	$("#home-btn").click(function(){
-		if($(".my-routes-overlay").css("display") == "block") {
-			hideMyRoutes();
-		}else if($(".preview-route-info").css("display") == "block"){
-			animateToHomeScreen();
-		}else {
-			animateGettingStarted();
-		}
+		returnHome()
 	});
-	// $("#getting-started-btn").click(function(){animateGettingStarted()});
-	$("#show-preview-btn").click(function(){generateRoutePreview()});
-	$("#confirm-route").click(function(){entryConfirmation()});
-	$("#cancel-route").click(function(){entryCancellation()});
+
+	// create a new Route instance from the form
+	// and pass it into the generateRoutePreview
+	$("#show-preview-btn").click(function(){
+		newRoute = Route.createFromForm()
+		generateRoutePreview(newRoute)
+	});
+
+	// save the Route to Parse, return "Home", and cleanup form
+	$("#confirm-route").click(function(){
+		saveRouteInfo(newRoute)
+		animateToHomeScreen();
+		clearInputs()
+	});
+
+	// just return home
+	$("#cancel-route").click(function(){
+		animateToHomeScreen();
+	});
 }
 
 
-//Parse constructor
-var Route = Parse.Object.extend('Route', 
-
-{//no instance methods
-},
-{ //class methods
-		createFromForm: function(){
-			newRoute = new Route()
-			var routeNameVal = $("#routename").val()
-			var routeRatingVal = $("#routerating").val()
-			var routeTypeVal = $("#routetype").val()
-			var routeDegreeVal = $("#routedegree").val()
-			var rockTypeVal = $("#rocktype").val()
-			var routeDescVal = $("#routedesc").val()
-			
-			
-
-
-			newRoute.set("name", routeNameVal)
-			newRoute.set("rating", routeRatingVal)
-			newRoute.set("type", routeTypeVal)
-			newRoute.set("degree", routeDegreeVal)
-			newRoute.set("rocktype", rockTypeVal)
-			newRoute.set("desc", routeDescVal)
-
-			return newRoute
-			}
-		}
-);
-
-var RouteCollection = Parse.Collection.extend({
-	model: Route
-	})
-
-var routes = new RouteCollection();
-
-routes.fetch({
-	success:function(collection){
-		collection.each(function(route){
-			updateSidebar(route);
-			updateMyRoutes(route);
-
-		})
-	}
-})
-
-//incorporate this into the constructor!!!!! - maybe
-function generateRoutePreview(){
-		var newRoute = Route.createFromForm()
+// Start the flow for creating a new route
+// First generate a preview based on the route argument
+function generateRoutePreview(route){
 		animateShowPreview()
-		$("#routename-preview").html(newRoute.get("name"))
-		$("#routerating-preview").html(newRoute.get("rating"))
-		$("#routetype-preview").html(newRoute.get("type"))
-		$("#routedegree-preview").html(newRoute.get("degree"))
-		$("#rocktype-preview").html(newRoute.get("rocktype"))
-		$("#routedesc-preview").html(newRoute.get("desc"))
-		
-} //this works
+		$("#routename-preview").html(route.get("name"))
+		$("#routerating-preview").html(route.get("rating"))
+		$("#routetype-preview").html(route.get("type"))
+		$("#routedegree-preview").html(route.get("degree"))
+		$("#rocktype-preview").html(route.get("rocktype"))
+		$("#routedesc-preview").html(route.get("desc"))		
+}
 
  
 
@@ -138,8 +107,8 @@ function deleteRoute(id) {
 }
 
 
-function saveRouteInfo() {
-  	newRoute.save(newRoute.options,{
+function saveRouteInfo(route) {
+  	route.save(null, {
 			success: function(route){
 				console.log("Success!")
 				updateSidebar(route);
@@ -196,32 +165,20 @@ function refreshRouteLists() {
 
 
 function confirmUpdate(route) {
-	
-				route.set("name", $("#routename").val())
-				route.set("rating", $("#routerating").val())
-				route.set("type", $("#routetype").val())
-				route.set("degree", $("#routedegree").val())
-				route.set("rocktype", $("#rocktype").val())
-				route.set("desc", $("#routedesc").val())
-				route.save(null, {
-					success: function(){
-						$("#show-preview-btn").css("display", "block");
-						$("#confirm-route-update-button").css("display", "none");
-						showMyRoutes();
-						refreshRouteLists();
-			
-					},
-					
-					error: function(){
-						console.log("there was an error saving the function");
-					}
-					
-				})
-				
-				// setTimeout(function() {
-				// 	refreshRouteLists()
-				// }, 2000);
-
+	route.updateFromForm();
+	route.save(null, {
+		success: function(){
+			$("#show-preview-btn").css("display", "block");
+			$("#confirm-route-update-button").css("display", "none");
+			showMyRoutes();
+			refreshRouteLists();
+		},
+		
+		error: function(){
+			console.log("there was an error saving the function");
+		}
+		
+	})
 }
 
 
@@ -270,22 +227,17 @@ function hideMyRoutes () {
 	$(".my-routes-display").hide();
 }
 
-
-//page stuff...
-function entryConfirmation() {
-		$('input').val("");
-		$('textarea').val("");
-		saveRouteInfo()
-		animateToHomeScreen();
+function clearInputs(){
+	$('input').val("");
+	$('textarea').val("");
 }
 
-
-function entryCancellation(){
-
+function returnHome(){
+	if($(".my-routes-overlay").css("display") == "block") {
+		hideMyRoutes();
+	}else if($(".preview-route-info").css("display") == "block"){
 		animateToHomeScreen();
+	}else {
+		animateGettingStarted();
+	}
 }
-
-
-
-
-

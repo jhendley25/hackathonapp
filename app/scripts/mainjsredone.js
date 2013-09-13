@@ -76,13 +76,13 @@ function updateMyRoutes(route) {
 	var accordianButton = _.template( $('#accordian-template').text() ) 
 	myRoutesDisplay.append( accordianButton({routeId: routeId, route: route}) )
 
-	$('.edit-route-button').click(function(){
+	$('#' + routeId + '.edit-route-button').click(function(){
 		var id = this.id;
 		hideMyRoutes();
 		editRoute(id);
 
 	})
-	$(".delete-route-button").click(function(){
+	$('#' + routeId + '.delete-route-button').click(function(){
 		var id = this.id;
 		deleteRoute(id); //modify later to display modal
 	})
@@ -127,6 +127,7 @@ function editRoute(id) {
 	var query = new Parse.Query(Route);
 	query.get(id, {
 		success: function(route){
+			console.log('editRoute is being called')
 			$("#routename").val(route.get("name"))
 			$("#routerating").val(route.get("rating"))
 			$("#routetype").val(route.get("type"))
@@ -151,9 +152,11 @@ function editRoute(id) {
 function refreshRouteLists() {
 	$(".my-routes-list").html("");
 	$(".route-list ul").html("");
+	console.log('about to fetch!')
 	routes.fetch({
 	success:function(collection){
 		collection.each(function(route){
+			console.log( 'what')
 			updateSidebar(route);
 			updateMyRoutes(route);
 			
@@ -171,6 +174,7 @@ function confirmUpdate(route) {
 			$("#show-preview-btn").css("display", "block");
 			$("#confirm-route-update-button").css("display", "none");
 			showMyRoutes();
+			console.log('confirmUpdate is being run')
 			refreshRouteLists();
 		},
 		

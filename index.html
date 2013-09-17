@@ -10,13 +10,16 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="stylesheet" href="styles/a73e022f.main.css">
+    <link rel="stylesheet" href="styles/ae8ace6a.main.css">
+    <script src="http://www.parsecdn.com/js/parse-1.2.10.min.js"></script>
+
 </head>
 
 <body>
 
   <div class="background-image">
-    <img src="../assets/climbing-bkgd2.jpg">
+    <div class="bkgd-overlay"></div>
+    <img src="../images/5d7937a1.climbing-bkgd2.jpg">
   </div>
 
 <!-- fixed header -->
@@ -57,6 +60,7 @@
         </ol>
 
           <button id="show-preview-btn" type="button" class="btn btn-primary btn-lg">Preview</button>
+          <button id="confirm-route-update-button" type="button" class="btn btn-primary btn-lg">Update</button>
 
     <!-- list current routes in routeCollection -->
 
@@ -64,6 +68,7 @@
             <div class="route-list">
               <ul>
                 <!-- route list populated here -->
+              
               </ul>
             </div>
         </div>
@@ -75,6 +80,7 @@
       <div class="rightcolumn">
     <!-- logo overlay -->
         <div class="getting-started-overlay">
+         
           <span class="welcome-logo">
             Welcome to Beta-fy!
           </span>
@@ -159,18 +165,24 @@
             </div>
 
             <!-- route image attached to upper right of main area -->
-            <div class="img-holder"></div>
+            <div class="img-holder">
+              <div class="img-upload-btns">
+              <input type="file" id="profilePhotoFileUpload">
+              <button id="#preview-image">Preview</button>
+              </div>
+            </div>
 
         </div> <!-- end of right column area -->
     </div> <!-- end of content960 wrapper-->
 </div><!-- end of wrapper960 -->
 
+<!-- junk  -->
 
 
 
 
 
-        <script src="scripts/1137e1f5.vendor.js"></script>
+        <script src="scripts/45045819.vendor.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -182,10 +194,30 @@
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
 
-        <script src="scripts/9ebd7ca1.main.js"></script>
+        <script>
+          Parse.initialize("t6rhvRcGOJ9IzFv3446cDzxt8m83AinxgspVseIt", "anOSummNpwlSlsWKuELaWQ3y3PoaYqbI1zZ782fF");
+        </script>
+
+        <script src="scripts/3dd8b8cc.main.js"></script>
 
         <script src="scripts/3431b5a9.coffee.js"></script>
 
         <script src="scripts/491c175a.plugins.js"></script>
+
+        <script type="text/template" id="accordian-template">
+          <button type="button" class="btn btn-large btn-block btn-primary" data-toggle="collapse" data-target="#<%= routeId %>">
+            <%= route.get("name") %> , <%= route.get("rating") %>
+          </button>
+          <div id="<%= routeId %>" class="collapse">
+          <div class="modify-route-buttons">
+            <button type="button" class="btn btn-primary btn-xs edit-route-button" id="<%= routeId %>">Edit</button>&nbsp;
+              <button type="button" class="btn btn-primary btn-xs delete-route-button" id="<%= routeId %>">Delete</button>
+          </div>
+            <h5>Route Type: <%= route.get("type") %> </h5><br>
+            <h5>Route Degree: <%= route.get("degree") %> </h5><br>
+            <h5>Rock Type: <%= route.get("rocktype") %> </h5><br>
+            <blockquote><strong>Route Description:</strong><br>  <p> <%= route.get("desc") %> </p></blockquote><br>
+          </div>
+        </script>
 </body>
 </html>

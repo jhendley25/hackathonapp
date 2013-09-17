@@ -1,7 +1,11 @@
 {
   "name": "hackathonapp",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "sass-bootstrap": "~3.0.0",
+    "jquery": "~1.10.2",
+    "underscore": "~1.5.2"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-copy": "~0.4.1",

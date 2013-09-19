@@ -31,7 +31,9 @@ var routeIdToCheck;
           success: function(results) {
             result = results[0]
             console.log(results)
+            routeIdToCheck = result.id;
             expect(result.get('name')).to.equal(randomTitle)
+            // deleteRoute(result.id)
             done()
           },
           error: function(error) {
@@ -42,54 +44,31 @@ var routeIdToCheck;
       }), 2000)
     }); // end it()
     it("should update a route from Parse when edit/update is clicked", function(done){
-      var form = $('.route-info-form')
-      // make a random title with which we can query
-      form.find('#routename').val("toBeChecked")
-      form.find('#routetype').val("misc filler text")
-      form.find('#routedegree').val("misc filler text")
-      form.find('#rocktype').val("misc filler text")
-      form.find('#routedesc').val('This is a very short lived post')
-
-      // submit it
-      $('#show-preview-btn').click()
-      $('#confirm-route').click()
-
-      // grab the id from parse for testing purposes
       
-      var query = new Parse.Query(Route);
-      query.equalTo("name", "toBeChecked")
-      query.find({
-        success: function(results){
-          results = results[0];
-          routeIdToCheck = results.id
-          console.log("success!" + results.id)
-          $('#' + routeIdToCheck + '.edit-route-button').click()
-          form.find('#routename').val("toBeUpdated");
-          //click update
-          $('#confirm-route-update-button').click()
-          
-        },
-        error: function(result){
-          console.log("error!")
-        }
-      })
-      //click edit on appropriate route & change title
+      
       
 
       setTimeout((function(){
-
-        var query2 = new Parse.Query(Route);
+        
+        $('#' + routeIdToCheck + '.edit-route-button').click()
+        var form = $('.route-info-form')
+        form.find('#routename').val("toBeUpdated")
+        $("#confirm-route-update-button").click()
+        
+        setTimeout((function(){
+        var query = new Parse.Query(Route);
         query.get(routeIdToCheck, {
           success: function(results) {
             console.log(results)
             expect(results.get('name')).to.equal("toBeUpdated")
+            deleteRoute(results.id)
             done()
           },
           error: function(error) {
             done(error.description)
           }
         });
-
+        }), 2000)
       }), 4000)
 
 
